@@ -14,7 +14,8 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
-  width: 300px;
+  width: 250px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +30,7 @@
 .page-number {
   position: absolute;
   bottom: 8px;
-  left: 50%; 
+  left: 50%;
   font-size: 15px;
   font-weight: bold;
   color: #333;
@@ -43,4 +44,76 @@
 
 .prompt-content small {
   color: #777;
+}
+
+.prompt-link {
+  text-decoration: none;
+}
+
+.prompt-link:hover {
+  cursor: pointer;
+}
+
+/* src/components/PromptDetails */
+
+.prompt-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.answer-input {
+  margin-top: 20px;
+}
+
+.answer-input label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.answer-input textarea {
+  width: 50%;
+  height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.prompt-details-page {
+  display: flex;
+}
+
+.sidebar-container {
+  flex: 0 0 250px;
+}
+
+/* src/components/PromptSidebar.css */
+
+.sidebar {
+  width: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.prompt-list {
+  list-style: none;
+  padding: 0;
+}
+
+.prompt-list li {
+  margin-bottom: 10px;
+}
+
+.numbered-link {
+  text-decoration: none;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: lightslategray;
+  color: #fff;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 50%;
 }
