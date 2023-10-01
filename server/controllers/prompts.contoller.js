@@ -1,5 +1,6 @@
 const {
     _getAllPrompts,
+    _searchPrompt,
     _getPromptById,
     _createPrompt,
     _updatePrompt,
@@ -13,6 +14,17 @@ const getAllPrompts = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(404).json({ msg: 'Not found' });
+    }
+};
+
+const searchPrompt = async (req, res) => {
+    try {
+        const description = req.query.description;
+        const data = await _searchPrompt(description);
+        res.json(data);
+    } catch (err) {
+        console.log(err);
+        res.status(404).json({ msg: err.message })
     }
 };
 
@@ -64,4 +76,5 @@ module.exports = {
     createPrompt,
     updatePrompt,
     deletePrompt,
+    searchPrompt,
 };

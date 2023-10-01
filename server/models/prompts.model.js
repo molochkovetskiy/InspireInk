@@ -5,6 +5,18 @@ const _getAllPrompts = () => {
         .select('id', 'description', 'created_at', 'updated_at');
 };
 
+const _searchPrompt = async (description) => {
+    const prompts = await db('prompts')
+        .select('id', 'description', 'created_at', 'updated_at')
+        .where('description', 'ilike', `%${description}%`);
+
+    if (prompts.length === 0) {
+        throw new Error('Prompt not found');
+    }
+
+    return prompts;
+};
+
 const _getPromptById = async (id) => {
     const prompt = await db('prompts')
         .select('id', 'description', 'created_at', 'updated_at')
@@ -55,4 +67,5 @@ module.exports = {
     _createPrompt,
     _updatePrompt,
     _deletePromt,
+    _searchPrompt,
 };
