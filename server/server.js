@@ -1,9 +1,14 @@
 const express = require('express');
 const app = express();
+const { prompts_router } = require('./routes/prompts.router');
 
-app.get("/", (req, res) => {
-    res.send('connected');
-});
+const dotenv = require('dotenv');
+dotenv.config(); // Load environment variables from a .env file
+
+// app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use('/prompts', prompts_router);
 
 // Error handling for invalid routes
 app.use((req, res) => {
