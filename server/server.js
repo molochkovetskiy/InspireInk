@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const { prompts_router } = require('./routes/prompts.router');
+const { prompts_router } = require('./routes/prompts.router.js');
+const { users_router } = require('./routes/users.router.js');
 
 const dotenv = require('dotenv');
 dotenv.config(); // Load environment variables from a .env file
@@ -9,6 +10,7 @@ dotenv.config(); // Load environment variables from a .env file
 app.use(express.json());
 
 app.use('/prompts', prompts_router);
+app.use('/users', users_router);
 
 // Error handling for invalid routes
 app.use((req, res) => {
