@@ -12,14 +12,25 @@ const _login = (username) => {
         .where({ username });
 };
 
-const _recordAnswer = (user_id, prompt_id, answer) => {
+const _recordAnswer = (userId, promptId, answer) => {
     return db('user_answers')
-        .insert({ user_id, prompt_id, answer })
+        .insert({
+            user_id: userId,
+            prompt_id: promptId,
+            answer,
+        })
         .returning(['id', 'user_id', 'prompt_id', 'answer']);
 };
+
+const _getUserAnswers = (userId) => {
+    return db('user_answers')
+        .select('id', 'user_id', 'prompt_id', 'answer')
+        .where({ user_id: userId });
+}
 
 module.exports = {
     _register,
     _login,
     _recordAnswer,
+    _getUserAnswers,
 };

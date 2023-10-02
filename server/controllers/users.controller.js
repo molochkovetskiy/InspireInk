@@ -2,6 +2,7 @@ const {
     _register,
     _login,
     _recordAnswer,
+    _getUserAnswers,
 } = require('../models/users.model.js');
 
 const bcrypt = require('bcrypt');
@@ -59,18 +60,32 @@ const login = async (req, res) => {
 };
 
 const recordAnswer = async (req, res) => {
+    const { userId, promptId, answer } = req.body;
+
     try {
-        const { user_id, prompt_id, answer } = req.body;
-        const userAnswer = await _recordAnswer(user_id, prompt_id, answer);
-        res.json(userAnswer);
+        const userAnswer = await _recordAnswer(userId, promptId, answer);
+        res.status(201).json(userAnswer);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ msg: 'Internal server error' });
     }
 };
+
+const getUserAnswers = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const userAnswers = await _getUserAnswers(userId);
+        res.status(200).json(userAnswers);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+}
 
 module.exports = {
     register,
     login,
     recordAnswer,
+    getUserAnswers,
 };
