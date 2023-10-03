@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { AppContext } from '../App';
+import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import PromptSidebar from './PromptSidebar';
@@ -30,8 +31,8 @@ const PromptDetails = (props) => {
 
     const getPromptInfo = async () => {
         try {
-            const res = await fetch(`/prompts/${param.id}`);
-            const data = await res.json();
+            const response = await axios.get(`/prompts/${param.id}`);
+            const data = response.data;
             setPrompt(data);
         } catch (error) {
             console.log(error);
@@ -43,15 +44,13 @@ const PromptDetails = (props) => {
         const promptId = param.id;
 
         try {
-            const response = await fetch(`/users/record-answer`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId, promptId, answer: userAnswer }),
+            const response = await axios.post(`/users/record-answer`, {
+                userId,
+                promptId,
+                answer: userAnswer,
             });
 
-            if (response.ok) {
+            if (response.status === 201) {
                 console.log('Answer submitted successfully!');
             } else {
                 console.error('Failed to submit answer');
