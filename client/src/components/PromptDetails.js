@@ -1,14 +1,16 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { AppContext } from '../App';
+import jwt_decode from 'jwt-decode';
+
 import PromptSidebar from './PromptSidebar';
 
 const PromptDetails = (props) => {
     const [prompt, setPrompt] = useState([]);
-    const [answer, setAnswer] = useState('');
+    const [userAnswer, setUserAnswer] = useState('');
     const param = useParams();
 
-    const { id } = useParams();
-    console.log('ID:', id);
+    const { token } = useContext(AppContext);
 
     // function formatTimestamp(timestamp) {
     //     const date = new Date(timestamp);
@@ -22,10 +24,9 @@ const PromptDetails = (props) => {
     //     return `${day} ${month} ${year}, ${hours}:${minutes}`;
     // }
 
-
     useEffect(() => {
         getPromptInfo();
-    }, [])
+    }, [param.id])
 
     const getPromptInfo = async () => {
         try {
@@ -37,26 +38,29 @@ const PromptDetails = (props) => {
         }
     };
 
-    // return (
-    //     <>
-    //         <div className="prompt-detail">
-    //             <h2>Prompt Details</h2>
-    //             <div className="prompt-content">
-    //                 <p>{prompt.description}</p>
-    //             </div>
-    //             <div className="answer-input">
-    //                 <label>Your Answer:</label>
-    //                 <textarea
-    //                     value={answer}
-    //                     onChange={(event) => setAnswer(event.target.value)}
-    //                 ></textarea>
-    //             </div>
-    //             {/* <small>Created: {formatTimestamp(prompt.created_at)}</small>
-    //                 <small>Updated: {formatTimestamp(prompt.updated_at)}</small> */}
-    //         </div>
-    //         <Link to='/'>Back to Prompts</Link>
-    //     </>
-    // );
+    const handleSubmitAnswer = async () => {
+        const userId = jwt_decode(token).userId;
+        const promptId = param.id;
+
+        try {
+            const response = await fetch(`/users/record-answer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, promptId, answer: userAnswer }),
+            });
+
+            if (response.ok) {
+                console.log('Answer submitted successfully!');
+            } else {
+                console.error('Failed to submit answer');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="prompt-details-page">
             <div className="sidebar-container">
@@ -72,10 +76,10 @@ const PromptDetails = (props) => {
                     <textarea
                         rows="4"
                         cols="50"
-                        value={answer}
-                        onChange={(event) => setAnswer(event.target.value)}
+                        onChange={(event) => setUserAnswer(event.target.value)}
                     ></textarea>
                 </div>
+                <button onClick={handleSubmitAnswer}>Submit Answer</button>
                 <Link to='/prompts'>Back to Prompts</Link>
             </div>
         </div>

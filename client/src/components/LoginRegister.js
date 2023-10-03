@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
+
+import { AppContext } from '../App';
 
 function LoginRegister(props) {
     const [formData, setFormData] = useState({ username: '', password: '' });
+
+    const { setToken } = useContext(AppContext);
 
     const navigate = useNavigate();
 
@@ -32,6 +36,8 @@ function LoginRegister(props) {
                 });
 
                 if (response.status === 200) {
+                    const data = await response.json();
+                    setToken(data.token);
                     navigate('/prompts');
                 } else {
                     // Handle login failure

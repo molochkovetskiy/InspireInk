@@ -6,6 +6,7 @@ const {
 } = require('../models/users.model.js');
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const register = async (req, res) => {
@@ -38,24 +39,23 @@ const login = async (req, res) => {
         // successful login
         const userId = row[0].id;
         const username = row[0].username
-        // // my secret
-        // const secret = process.env.ACCESS_TOKEN_SECRET;
-        // // token
-        // const accessToken = jwt.sign({ userId, username }, secret, {
-        //     expiresIn: '60s',
-        // });
-        // // server cookies
-        // res.cookie('token', accessToken, {
-        //     httpOnly: true,
-        //     maxAge: 60 * 1000,
-        // });
-        // // response with token
-        // res.json({ token: accessToken });
-        res.json({ id: userId, username });
+        // my secret
+        const secret = process.env.ACCESS_TOKEN_SECRET;
+        // token
+        const accessToken = jwt.sign({ userId, username }, secret, {
+            expiresIn: '1h',
+        });
+        // server cookies
+        res.cookie('token', accessToken, {
+            httpOnly: true,
+            maxAge: 3600000, // 1 hour in milliseconds
+        });
+        // response with token
+        res.json({ token: accessToken });
 
     } catch (error) {
         console.log(error);
-        res.status(404).json({ msg: 'something went wrong' });
+        res.status(500).json({ msg: 'something went wrong' });
     }
 };
 

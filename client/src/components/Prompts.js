@@ -14,8 +14,6 @@ const Prompts = () => {
         handleSearch();
     }, [search]);
 
-    console.log('prompts:', prompts);
-
     const fetchPrompts = async () => {
         try {
             const response = await fetch('/prompts');

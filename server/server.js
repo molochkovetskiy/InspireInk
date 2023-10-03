@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+
+const cookieParser = require('cookie-parser');
+
 const { prompts_router } = require('./routes/prompts.router.js');
 const { users_router } = require('./routes/users.router.js');
 
@@ -8,6 +11,8 @@ dotenv.config(); // Load environment variables from a .env file
 
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use('/prompts', prompts_router);
 app.use('/users', users_router);
