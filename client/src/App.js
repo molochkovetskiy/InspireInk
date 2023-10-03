@@ -4,16 +4,18 @@ import { useState, createContext } from 'react';
 import Prompts from './components/Prompts';
 import PromptDetails from './components/PromptDetails';
 import LoginRegister from './components/LoginRegister';
+import Navbar from './components/Navbar';
 import { Auth } from './auth/Auth';
 
 export const AppContext = createContext(null);
 
 function App() {
   const [token, setToken] = useState(null);
-  
+
   return (
     <AppContext.Provider value={{ token, setToken }}>
       <div className="App">
+        <Navbar />
         <Routes>
           <Route path="/prompts" element={<Prompts />} />
           <Route path="/prompts/:id" element={<Auth><PromptDetails /></Auth>} />
