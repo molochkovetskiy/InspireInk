@@ -1,6 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { useState, createContext } from 'react';
+import HomePage from './components/HomePage';
 import Prompts from './components/Prompts';
 import PromptDetails from './components/PromptDetails';
 import LoginRegister from './components/LoginRegister';
@@ -17,6 +18,7 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/prompts" element={<Prompts />} />
           <Route path="/prompts/:id" element={<Auth><PromptDetails /></Auth>} />
           <Route path='/login' element={<LoginRegister title='Login' />} />
