@@ -9,8 +9,11 @@ import PromptSidebar from './PromptSidebar';
 const PromptDetails = (props) => {
     const [promptInfo, setPromptInfo] = useState([]);
     const [userAnswer, setUserAnswer] = useState('');
+    const [newAnswer, setNewAnswer] = useState('');
     const { id } = useParams();
     const { token } = useContext(AppContext);
+
+    // const navigate = useNavigate();
 
     // function formatTimestamp(timestamp) {
     //     const date = new Date(timestamp);
@@ -63,11 +66,12 @@ const PromptDetails = (props) => {
             const response = await axios.post(`/users/record-answer`, {
                 userId,
                 promptId: id,
-                answer: userAnswer,
+                answer: newAnswer,
             });
 
             if (response.status === 201) {
                 console.log('Answer submitted successfully!');
+                setUserAnswer(newAnswer);
             } else {
                 console.error('Failed to submit answer');
             }
@@ -97,8 +101,8 @@ const PromptDetails = (props) => {
                         <textarea
                             rows="4"
                             cols="50"
-                            value={userAnswer}
-                            onChange={(event) => setUserAnswer(event.target.value)}
+                            value={newAnswer}
+                            onChange={(event) => setNewAnswer(event.target.value)}
                         ></textarea>
                         <button onClick={handleSubmitAnswer}>Submit Answer</button>
                     </div>
