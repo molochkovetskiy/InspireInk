@@ -26,11 +26,18 @@ const _getUserAnswers = (userId) => {
     return db('user_answers')
         .select('id', 'user_id', 'prompt_id', 'answer')
         .where({ user_id: userId });
-}
+};
+
+const _getUserAnswer = (userId, promptId) => {
+    return db('user_answers')
+        .select('id', 'user_id', 'prompt_id', 'answer')
+        .where({ user_id: userId, prompt_id: promptId });
+};
 
 module.exports = {
     _register,
     _login,
     _recordAnswer,
     _getUserAnswers,
+    _getUserAnswer,
 };

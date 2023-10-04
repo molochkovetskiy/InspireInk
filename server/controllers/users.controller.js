@@ -3,6 +3,7 @@ const {
     _login,
     _recordAnswer,
     _getUserAnswers,
+    _getUserAnswer,
 } = require('../models/users.model.js');
 
 const bcrypt = require('bcrypt');
@@ -81,11 +82,24 @@ const getUserAnswers = async (req, res) => {
         console.log(error);
         res.status(500).json({ msg: 'Internal server error' });
     }
-}
+};
+
+const getUserAnswer = async (req, res) => {
+    try {
+        const userId = req.query.userId;
+        const promptId = req.query.promptId;
+        const data = await _getUserAnswer(userId, promptId);
+        res.json(data);
+    } catch (err) {
+        console.log(err);
+        res.status(404).json({ msg: err.message })
+    }
+};
 
 module.exports = {
     register,
     login,
     recordAnswer,
     getUserAnswers,
+    getUserAnswer,
 };
