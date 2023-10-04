@@ -7,10 +7,9 @@ import jwt_decode from 'jwt-decode';
 import PromptSidebar from './PromptSidebar';
 
 const PromptDetails = (props) => {
-    const [prompt, setPrompt] = useState([]);
+    const [promptInfo, setPromptInfo] = useState([]);
     const [userAnswer, setUserAnswer] = useState('');
-    const param = useParams();
-
+    const { id } = useParams();
     const { token } = useContext(AppContext);
 
     // function formatTimestamp(timestamp) {
@@ -26,14 +25,32 @@ const PromptDetails = (props) => {
     // }
 
     useEffect(() => {
-        getPromptInfo();
-    }, [param.id])
+        fetchPromptInfo();
+        fetchUserAnswer();
+    }, [id])
 
-    const getPromptInfo = async () => {
+    const fetchUserAnswer = async () => {
+        const userId = jwt_decode(token).userId;
+
         try {
-            const response = await axios.get(`/prompts/${param.id}`);
-            const data = response.data;
-            setPrompt(data);
+            const response = await axios.get(`/users/user-answer?userId=${userId}&promptId=${id}`);
+            const userAnswerData = response.data;
+
+            if (userAnswerData.length !== 0) {
+                setUserAnswer(userAnswerData[0].answer);
+            } else {
+                setUserAnswer('');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchPromptInfo = async () => {
+        try {
+            const response = await axios.get(`/prompts/${id}`);
+            const promptData = response.data;
+            setPromptInfo(promptData);
         } catch (error) {
             console.log(error);
         }
@@ -41,12 +58,11 @@ const PromptDetails = (props) => {
 
     const handleSubmitAnswer = async () => {
         const userId = jwt_decode(token).userId;
-        const promptId = param.id;
 
         try {
             const response = await axios.post(`/users/record-answer`, {
                 userId,
-                promptId,
+                promptId: id,
                 answer: userAnswer,
             });
 
@@ -68,21 +84,29 @@ const PromptDetails = (props) => {
             <div className="prompt-detail">
                 <h2>Prompt Details</h2>
                 <div className="prompt-content">
-                    <p>{prompt.description}</p>
+                    <p>{promptInfo.description}</p>
                 </div>
-                <div className="answer-input">
-                    <label>Your Answer:</label>
-                    <textarea
-                        rows="4"
-                        cols="50"
-                        onChange={(event) => setUserAnswer(event.target.value)}
-                    ></textarea>
-                </div>
-                <button onClick={handleSubmitAnswer}>Submit Answer</button>
+                {userAnswer ? (
+                    <div className="user-answer">
+                        <p>Your Answer:</p>
+                        <p>{userAnswer}</p>
+                    </div>
+                ) : (
+                    <div className="answer-input">
+                        <label>Your Answer:</label>
+                        <textarea
+                            rows="4"
+                            cols="50"
+                            value={userAnswer}
+                            onChange={(event) => setUserAnswer(event.target.value)}
+                        ></textarea>
+                        <button onClick={handleSubmitAnswer}>Submit Answer</button>
+                    </div>
+                )}
                 <Link to='/prompts'>Back to Prompts</Link>
             </div>
         </div>
     );
-}
+};
 
 export default PromptDetails;
