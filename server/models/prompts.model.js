@@ -61,6 +61,15 @@ const _deletePromt = async (id) => {
     return deletedPrompt[0];
 };
 
+const _getFeedPrompts = () => {
+    return db('user_answers')
+        .select('prompts.description', 'user_answers.answer', 'users.username', 'user_answers.updated_at')
+        .join('users', 'user_answers.user_id', 'users.id')
+        .join('prompts', 'user_answers.prompt_id', 'prompts.id')
+        .limit(10)
+        .orderBy('user_answers.updated_at', 'desc');
+};
+
 module.exports = {
     _getAllPrompts,
     _getPromptById,
@@ -68,4 +77,5 @@ module.exports = {
     _updatePrompt,
     _deletePromt,
     _searchPrompt,
+    _getFeedPrompts,
 };

@@ -5,6 +5,7 @@ const {
     _createPrompt,
     _updatePrompt,
     _deletePromt,
+    _getFeedPrompts,
 } = require('../models/prompts.model.js')
 
 const getAllPrompts = async (req, res) => {
@@ -70,6 +71,16 @@ const deletePrompt = async (req, res) => {
     }
 };
 
+const getFeedPrompts = async (req, res) => {
+    try {
+        const data = await _getFeedPrompts();
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(404).json({ msg: 'Not found' });
+    }
+};
+
 module.exports = {
     getAllPrompts,
     getPromptById,
@@ -77,4 +88,5 @@ module.exports = {
     updatePrompt,
     deletePrompt,
     searchPrompt,
+    getFeedPrompts,
 };
