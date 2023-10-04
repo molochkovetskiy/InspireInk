@@ -1,0 +1,41 @@
+.feed-prompts {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feed-prompts h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.feed-prompts ul {
+    list-style: none;
+    padding: 0;
+}
+
+.feed-prompts li {
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.feed-prompts p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.feed-prompts p.username {
+    color: #007bff;
+}
+
+.feed-prompts p.updated-at {
+    color: #777;
+}

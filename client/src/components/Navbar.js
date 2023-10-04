@@ -36,6 +36,9 @@ const Navbar = () => {
             </div>
             <ul className="navbar-menu">
                 <li className="navbar-item">
+                    <Link to="/feed">Feed</Link>
+                </li>
+                <li className="navbar-item">
                     <Link to="/prompts">Prompts</Link>
                 </li>
                 {!token ? (

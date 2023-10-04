@@ -6,6 +6,7 @@ import Prompts from './components/Prompts';
 import PromptDetails from './components/PromptDetails';
 import LoginRegister from './components/LoginRegister';
 import Navbar from './components/Navbar';
+import FeedPrompts from './components/FeedPrompts';
 import { Auth } from './auth/Auth';
 
 export const AppContext = createContext(null);
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/prompts" element={<Prompts />} />
+          <Route path="/feed" element={<FeedPrompts />} />
           <Route path="/prompts/:id" element={<Auth><PromptDetails /></Auth>} />
           <Route path='/login' element={<LoginRegister title='Login' />} />
           <Route path='/register' element={<LoginRegister title='Register' />} />
