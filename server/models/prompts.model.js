@@ -88,6 +88,16 @@ const _checkUserLikedAnswer = (userId, userAnswerId) => {
         .first();
 };
 
+const _deleteLike = (userId, userAnswerId) => {
+    return db('answer_likes')
+        .where({
+            user_id: userId,
+            user_answer_id: userAnswerId,
+        })
+        .del()
+        .returning(['id', 'user_id', 'user_answer_id']);
+};
+
 module.exports = {
     _getAllPrompts,
     _getPromptById,
@@ -96,6 +106,7 @@ module.exports = {
     _deletePromt,
     _searchPrompt,
     _getFeedPrompts,
-     _insertLike,
+    _insertLike,
     _checkUserLikedAnswer,
+    _deleteLike,
 };
