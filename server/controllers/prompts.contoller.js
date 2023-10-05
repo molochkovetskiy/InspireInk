@@ -6,6 +6,8 @@ const {
     _updatePrompt,
     _deletePromt,
     _getFeedPrompts,
+    _insertLike,
+    _checkUserLikedAnswer,
 } = require('../models/prompts.model.js')
 
 const getAllPrompts = async (req, res) => {
@@ -81,6 +83,22 @@ const getFeedPrompts = async (req, res) => {
     }
 };
 
+const insertLike = async (req, res) => {
+    try {
+        const { userId, userAnswerId } = req.body;
+
+        const userHasLikedAnswer = await _checkUserLikedAnswer(userId, userAnswerId);
+
+        if (!userHasLikedAnswer) {
+            const data = await _insertLike(userId, userAnswerId);
+            res.status(201).json(data);
+        }
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ msg: err.message });
+    }
+};
+
 module.exports = {
     getAllPrompts,
     getPromptById,
@@ -89,4 +107,5 @@ module.exports = {
     deletePrompt,
     searchPrompt,
     getFeedPrompts,
+    insertLike,
 };

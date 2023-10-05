@@ -63,11 +63,29 @@ const _deletePromt = async (id) => {
 
 const _getFeedPrompts = () => {
     return db('user_answers')
-        .select('prompts.description', 'user_answers.answer', 'users.username', 'user_answers.updated_at')
+        .select('user_answers.id', 'prompts.description', 'user_answers.answer', 'users.username', 'user_answers.updated_at')
         .join('users', 'user_answers.user_id', 'users.id')
         .join('prompts', 'user_answers.prompt_id', 'prompts.id')
         .limit(10)
         .orderBy('user_answers.updated_at', 'desc');
+};
+
+const _insertLike = (userId, userAnswerId) => {
+    return db('answer_likes')
+        .insert({
+            user_id: userId,
+            user_answer_id: userAnswerId,
+        })
+        .returning(['id', 'user_id', 'user_answer_id']);
+};
+
+const _checkUserLikedAnswer = (userId, userAnswerId) => {
+    return db('answer_likes')
+        .where({
+            user_id: userId,
+            user_answer_id: userAnswerId,
+        })
+        .first();
 };
 
 module.exports = {
@@ -78,4 +96,6 @@ module.exports = {
     _deletePromt,
     _searchPrompt,
     _getFeedPrompts,
+     _insertLike,
+    _checkUserLikedAnswer,
 };
