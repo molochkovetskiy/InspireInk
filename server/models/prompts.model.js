@@ -98,6 +98,13 @@ const _deleteLike = (userId, userAnswerId) => {
         .returning(['id', 'user_id', 'user_answer_id']);
 };
 
+const _amountLikes = (userAnswerId) => {
+    return db('answer_likes')
+        .select(db.raw('count(*)'))
+        .where({ user_answer_id: userAnswerId })
+        .groupBy('user_answer_id');
+};
+
 module.exports = {
     _getAllPrompts,
     _getPromptById,
@@ -109,4 +116,5 @@ module.exports = {
     _insertLike,
     _checkUserLikedAnswer,
     _deleteLike,
+    _amountLikes,
 };

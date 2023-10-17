@@ -9,6 +9,7 @@ const {
     _insertLike,
     _checkUserLikedAnswer,
     _deleteLike,
+    _amountLikes,
 } = require('../models/prompts.model.js')
 
 const getAllPrompts = async (req, res) => {
@@ -100,14 +101,36 @@ const insertLike = async (req, res) => {
     }
 };
 
+const checkUserLikedAnswer = async (req, res) => {
+    const { userId, userAnswerId } = req.query;
+    try {
+        const userHasLikedAnswer = await _checkUserLikedAnswer(userId, userAnswerId);
+        res.json(userHasLikedAnswer);
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ msg: err.message });
+    }
+};
+
 const deleteLike = async (req, res) => {
-    const { userId, userAnswerId } = req.body;
+    const { userId, userAnswerId } = req.query;
     try {
         const data = await _deleteLike(userId, userAnswerId);
         res.json(data);
     } catch (err) {
         console.log(err);
         res.status(404).json({ msg: 'Answer not found' });
+    }
+};
+
+const amountLikes = async (req, res) => {
+    const { userAnswerId } = req.query;
+    try {
+        const data = await _amountLikes(userAnswerId);
+        res.json(data);
+    } catch (err) {
+        console.log(err);
+        res.status(404).json({ msg: 'Like not found' });
     }
 };
 
@@ -120,5 +143,7 @@ module.exports = {
     searchPrompt,
     getFeedPrompts,
     insertLike,
+    checkUserLikedAnswer,
     deleteLike,
+    amountLikes,
 };
