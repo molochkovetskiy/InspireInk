@@ -4,6 +4,7 @@ const {
     _recordAnswer,
     _getUserAnswers,
     _getUserAnswer,
+    _getInfoUserAnswer,
 } = require('../models/users.model.js');
 
 const bcrypt = require('bcrypt');
@@ -90,9 +91,21 @@ const getUserAnswer = async (req, res) => {
         const promptId = req.query.promptId;
         const data = await _getUserAnswer(userId, promptId);
         res.json(data);
-    } catch (err) {
-        console.log(err);
-        res.status(404).json({ msg: err.message })
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({ msg: error.message })
+    }
+};
+
+const getInfoUserAnswer = async (req, res) => {
+    const userAnswerId = req.params.id
+
+    try {
+        const data = await _getInfoUserAnswer(userAnswerId);
+        res.json(data);
+    } catch (error) {
+        console.error(error);
+        res.status(404).json({ msg: 'Not found' });
     }
 };
 
@@ -102,4 +115,5 @@ module.exports = {
     recordAnswer,
     getUserAnswers,
     getUserAnswer,
+    getInfoUserAnswer,
 };

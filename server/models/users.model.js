@@ -34,10 +34,19 @@ const _getUserAnswer = (userId, promptId) => {
         .where({ user_id: userId, prompt_id: promptId });
 };
 
+const _getInfoUserAnswer = (userAnswerId) => {
+    return db('user_answers')
+        .select('user_answers.id', 'user_answers.answer', 'user_answers.updated_at', 'prompts.description', 'users.username')
+        .join('users', 'user_answers.user_id', 'users.id')
+        .join('prompts', 'user_answers.prompt_id', 'prompts.id')
+        .where({ 'user_answers.id': userAnswerId });
+};
+
 module.exports = {
     _register,
     _login,
     _recordAnswer,
     _getUserAnswers,
     _getUserAnswer,
+    _getInfoUserAnswer,
 };

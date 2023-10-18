@@ -5,6 +5,7 @@ const {
     recordAnswer,
     getUserAnswers,
     getUserAnswer,
+    getInfoUserAnswer,
 } = require('../controllers/users.controller.js');
 const { verifyToken } = require('../middlewares/verify.token.js');
 
@@ -24,5 +25,6 @@ users_router.get('/logout', (req, res) => {
 users_router.post('/record-answer', recordAnswer);
 users_router.get('/user-answers/:id', getUserAnswers);
 users_router.get('/user-answer', getUserAnswer);
+users_router.get('/answers/:id', getInfoUserAnswer);
 
 module.exports = { users_router };
