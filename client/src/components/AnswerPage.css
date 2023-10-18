@@ -1,0 +1,59 @@
+.answer-page-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100vh;
+}
+
+.answer-card {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.description {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.answer-text {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.username {
+    color: #007bff;
+    margin-top: 10px;
+}
+
+.updated-at {
+    color: #777;
+    margin-top: 10px;
+}
+
+.like-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.heart-button {
+    font-size: 24px;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: transform 0.2s;
+}
+
+.heart-button:hover {
+    transform: scale(1.2);
+}
+
+.likes-count {
+    font-size: 18px;
+    margin-left: 10px;
+}

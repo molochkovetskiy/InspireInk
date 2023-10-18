@@ -14,11 +14,15 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
-  width: 250px;
-  height: 250px;
+  width: 170px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.prompt-card:hover {
+  transform: scale(1.03);
 }
 
 .prompt-content {
@@ -29,7 +33,7 @@
 
 .page-number {
   position: absolute;
-  bottom: 8px;
+  bottom: 12px;
   left: 50%;
   font-size: 15px;
   font-weight: bold;
