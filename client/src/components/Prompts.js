@@ -65,7 +65,6 @@ const Prompts = () => {
                             <div className="prompt-card">
                                 <div className="prompt-content">
                                     <p>{prompt.description}</p>
-                                    <p>Your answer: </p>
                                 </div>
                                 <div className="page-number">{index + 1}</div>
                             </div>

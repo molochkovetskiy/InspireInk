@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -114,6 +115,8 @@ const FeedPrompts = () => {
                                 {prompt.likes}
                             </>
                         )}
+                        <br />
+                        <Link to={`/answers/${prompt.id}`}>See...</Link>
                     </li>
                 ))}
             </ul>
