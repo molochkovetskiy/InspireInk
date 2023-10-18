@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const { prompts_router } = require('./routes/prompts.router.js');
 const { users_router } = require('./routes/users.router.js');
+const { comments_router } = require('./routes/commnets.router.js');
 
 const dotenv = require('dotenv');
 dotenv.config(); // Load environment variables from a .env file
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 app.use('/prompts', prompts_router);
 app.use('/users', users_router);
+app.use('/comments', comments_router);
 
 // Error handling for invalid routes
 app.use((req, res) => {
