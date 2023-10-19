@@ -10,7 +10,6 @@ const Comments = (props) => {
     const [newComment, setNewComment] = useState('');
 
     const { token } = useContext(AppContext);
-    const userId = jwt_decode(token).userId;
 
     const fetchComments = async () => {
         try {
@@ -24,6 +23,7 @@ const Comments = (props) => {
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         try {
+            const userId = jwt_decode(token).userId;
             await axios.post(`/comments/${props.answerId}`, {
                 userId,
                 text: newComment
