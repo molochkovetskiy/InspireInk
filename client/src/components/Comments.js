@@ -37,7 +37,7 @@ const Comments = (props) => {
 
     useEffect(() => {
         fetchComments();
-    }, []);
+    }, [props.answerId]);
 
     return (
         <div className="comments-container">

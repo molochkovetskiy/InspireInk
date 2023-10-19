@@ -5,10 +5,12 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import PromptSidebar from './PromptSidebar';
+import Comments from './Comments';
 
 const PromptDetails = (props) => {
     const [promptInfo, setPromptInfo] = useState([]);
     const [userAnswer, setUserAnswer] = useState('');
+    const [userAnswerId, setUserAnswerId] = useState('');
     const [newAnswer, setNewAnswer] = useState('');
     const { id } = useParams();
     const { token } = useContext(AppContext);
@@ -27,6 +29,7 @@ const PromptDetails = (props) => {
 
             if (userAnswerData.length !== 0) {
                 setUserAnswer(userAnswerData[0].answer);
+                setUserAnswerId(userAnswerData[0].id);
             } else {
                 setUserAnswer('');
             }
@@ -95,6 +98,7 @@ const PromptDetails = (props) => {
                 )}
                 <Link to='/prompts'>Back to Prompts</Link>
             </div>
+            {userAnswerId && <Comments answerId={userAnswerId} />}
         </div>
     );
 };
