@@ -1,0 +1,66 @@
+.comments-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comments-heading {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.comment-box {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.comment-text {
+    font-size: 16px;
+    margin: 0;
+}
+
+.comment-info {
+    font-size: 14px;
+    color: #777;
+}
+
+.no-comments-text {
+    font-size: 16px;
+    color: #777;
+    text-align: center;
+}
+
+.comment-form {
+    margin-top: 20px;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
