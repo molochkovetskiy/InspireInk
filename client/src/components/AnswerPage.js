@@ -1,10 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { AppContext } from '../App';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import './AnswerPage.css';
+import Comments from './Comments';
 
 const AnswerPage = () => {
     const [answerData, setAnswerData] = useState([]);
@@ -82,29 +83,39 @@ const AnswerPage = () => {
     }, [])
 
     return (
-        <div className="answer-page-container">
-            <div className="answer-card">
-                <p className="description">{answerData.description}</p>
-                <p className="answer-text">Answer: {answerData.answer}</p>
-                <p className="username">Username: {answerData.username}</p>
-                <p className="updated-at">Updated At: {formatTimestamp(answerData.updated_at)}</p>
-                {answerData.liked ? (
-                    <div className="like-section">
-                        <button className="heart-button" onClick={() => handleLike(answerData.id, 'unlike')}>
-                            ❤️
-                        </button>
-                        <span className="likes-count">{answerData.likes}</span>
+        <>
+            <div className="answer-page-container">
+                <div className="answer-section">
+                    <div className="answer-card">
+                        <p className="description">{answerData.description}</p>
+                        <p className="answer-text">Answer: {answerData.answer}</p>
+                        <p className="username">Username: {answerData.username}</p>
+                        <p className="updated-at">Updated At: {formatTimestamp(answerData.updated_at)}</p>
+                        {answerData.liked ? (
+                            <div className="like-section">
+                                <button className="heart-button" onClick={() => handleLike(answerData.id, 'unlike')}>
+                                    ❤️
+                                </button>
+                                <span className="likes-count">{answerData.likes}</span>
+                            </div>
+                        ) : (
+                            <div className="like-section">
+                                <button className="heart-button" onClick={() => handleLike(answerData.id)}>
+                                    🤍
+                                </button>
+                                <span className="likes-count">{answerData.likes}</span>
+                            </div>
+                        )}
                     </div>
-                ) : (
-                    <div className="like-section">
-                        <button className="heart-button" onClick={() => handleLike(answerData.id)}>
-                            🤍
-                        </button>
-                        <span className="likes-count">{answerData.likes}</span>
-                    </div>
-                )}
+                </div>
+                <div className="comments-section">
+                    <Comments answerId={id} />
+                </div>
             </div>
-        </div>
+            <div className="back-to-feed">
+                <Link to='/feed'>Back to Feed</Link>
+            </div>
+        </>
     );
 };
 

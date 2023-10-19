@@ -1,8 +1,8 @@
 .answer-page-container {
     display: flex;
-    justify-content: left;
+    justify-content: space-around;
     align-items: center;
-    height: 100vh;
+    margin: 20px;
 }
 
 .answer-card {
@@ -56,4 +56,9 @@
 .likes-count {
     font-size: 18px;
     margin-left: 10px;
+}
+
+.back-to-feed {
+    display: flex;
+    justify-content: center;
 }
