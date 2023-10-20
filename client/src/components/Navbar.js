@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -8,6 +8,7 @@ import './Navbar.css';
 
 const Navbar = () => {
     const { token, setToken } = useContext(AppContext);
+    const navigate = useNavigate()
     let username = '';
 
     if (token) {
@@ -23,6 +24,7 @@ const Navbar = () => {
             });
             if (res.status === 200) {
                 setToken(null);
+                navigate('/login');
             }
         } catch (error) {
             setToken(null);
