@@ -4,7 +4,7 @@ import { AppContext } from '../App';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-import './FeedPrompts.css';
+import './css/FeedPrompts.css';
 
 const FeedPrompts = () => {
     const [feedPrompts, setFeedPrompts] = useState([]);

@@ -4,7 +4,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { AppContext } from '../App';
 
-import './Navbar.css';
+import './css/Navbar.css';
 
 const Navbar = () => {
     const { token, setToken } = useContext(AppContext);

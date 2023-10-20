@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AppContext } from '../App';
 import jwt_decode from 'jwt-decode';
 
-import './Comments.css';
+import './css/Comments.css';
 
 const Comments = (props) => {
     const [comments, setComments] = useState([]);
