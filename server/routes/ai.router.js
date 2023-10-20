@@ -6,6 +6,6 @@ const {
 
 const ai_router = express.Router();
 
-ai_router.post("/ai-advice", getAiAdvice);
+ai_router.post("/get-ai-advice", getAiAdvice);
 
 module.exports = { ai_router };
