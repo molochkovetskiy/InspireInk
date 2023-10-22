@@ -11,19 +11,23 @@ const { ai_router } = require('./routes/ai.router.js');
 const dotenv = require('dotenv');
 dotenv.config(); // Load environment variables from a .env file
 
-// app.use(express.urlencoded({ extended: true }));
+// Serve static assets
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(cookieParser());
 
+// API routes
 app.use('/prompts', prompts_router);
 app.use('/users', users_router);
 app.use('/comments', comments_router);
 app.use('/ai', ai_router);
 
-// Error handling for invalid routes
-app.use((req, res) => {
-    res.status(404).json({ msg: 'Route not found' });
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 // Define the port number from environment variables or use a default value (5000)
@@ -32,12 +36,4 @@ const PORT = process.env.PORT || 5000;
 // Start the Express server and listen on the specified port
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-});
-
-// Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, "../client/build")));
-
-// All other GET requests not handled before will return our React app
-app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
