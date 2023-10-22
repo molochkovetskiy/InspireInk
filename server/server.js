@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-
 const cookieParser = require('cookie-parser');
 
 const { prompts_router } = require('./routes/prompts.router.js');
@@ -36,10 +35,9 @@ app.listen(PORT, () => {
 });
 
 // Have Node serve the files for our built React app
-// app.use(express.static(path.resolve(__dirname, "./client/build")));
-app.use(express.static(path.join(path.resolve(__dirname, '..'), "client/build")));
+app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
-    res.sendFile(path.resolve(path.resolve(__dirname, '..'), "./client/build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
