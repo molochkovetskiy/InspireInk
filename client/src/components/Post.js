@@ -105,7 +105,7 @@ const Post = () => {
                     <CardHeader
                         avatar={
                             <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
-                                {prompt.username[0].toUpperCase()}
+                                {/* {prompt.username[0].toUpperCase()} */}
                             </Avatar>
                         }
                         action={
@@ -128,7 +128,7 @@ const Post = () => {
                         {prompt.liked ? (
                             <IconButton aria-label="add to favorites">
                                 <Checkbox
-                                    icon={<FavoriteBorderIcon />}
+                                    icon={<Favorite sx={{ color: 'red' }} />}
                                     checkedIcon={<Favorite sx={{ color: 'red' }} />}
                                     onClick={() => handleLike(prompt.id, 'unlike')}
                                 />
