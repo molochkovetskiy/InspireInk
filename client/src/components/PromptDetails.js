@@ -1,10 +1,19 @@
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    TextField,
+    Typography,
+} from "@mui/material";
+
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { AppContext } from '../App';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-import PromptSidebar from './PromptSidebar';
 import Comments from './Comments';
 
 const PromptDetails = (props) => {
@@ -94,43 +103,64 @@ const PromptDetails = (props) => {
     };
 
     return (
-        <div className="prompt-details-page">
-            <div className="sidebar-container">
-                <PromptSidebar />
-            </div>
-            <div className="prompt-detail">
-                <h2>Prompt Details</h2>
-                <div className="prompt-content">
-                    <p>{promptInfo.description}</p>
-                </div>
-                {userAnswer ? (
-                    <div className="user-answer">
-                        <p>Your Answer:</p>
-                        <p>{userAnswer}</p>
-                        <button className="ai-advice-button" onClick={handleGetAiAdvice}>
-                            Get AI advice
-                        </button>
-                        {aiAdvice && <div className="ai-advice">{aiAdvice}</div>}
-                    </div>
-                ) : (
-                    <div className="answer-input">
-                        <label>Your Answer:</label>
-                        <textarea
-                            className="answer-textarea"
-                            rows="4"
-                            cols="100"
-                            value={newAnswer}
-                            onChange={(event) => setNewAnswer(event.target.value)}
-                        ></textarea>
-                        <button className="submit-button-answer" onClick={handleSubmitAnswer}>
-                            Submit Answer
-                        </button>
-                    </div>
-                )}
-                <Link to='/prompts'>Back to Prompts</Link>
-            </div>
-            {userAnswerId && <Comments answerId={userAnswerId} />}
-        </div>
+        <>
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Box sx={{ display: 'flex' }}>
+                    <Card sx={{ display: 'flex', flexDirection: 'column', margin: 5 }}>
+                        <CardHeader
+                            title='Prompt Details'
+                            subheader={promptInfo.description}
+                        />
+                        <CardContent >
+                            <Typography sx={{ width: 600 }} variant="body2" color="text.secondary" mt={3}>
+                                {userAnswer ? (
+                                    <Typography>
+                                        Your Answer:
+                                        {userAnswer}
+                                        <Box display="flex" mt={2}>
+                                            <Button variant="contained" sx={{ marginRight: '20px' }} onClick={handleGetAiAdvice}>
+                                                Get AI advice
+                                            </Button>
+                                            <Button size="small">
+                                                <Link to={'/prompts'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                    Back to Prompts
+                                                </Link>
+                                            </Button>
+                                        </Box>
+                                        {aiAdvice && <div className="ai-advice">{aiAdvice}</div>}
+                                    </Typography>
+                                ) : (
+                                    <Typography className="answer-input">
+                                        Your Answer:
+                                        <TextField
+                                            sx={{ width: "100%" }}
+                                            id="standard-multiline-static"
+                                            multiline
+                                            rows={4}
+                                            placeholder="What's on your mind?"
+                                            variant="standard"
+                                            value={newAnswer}
+                                            onChange={(event) => setNewAnswer(event.target.value)}
+                                        />
+                                        <Box display="flex" mt={2}>
+                                            <Button onClick={handleSubmitAnswer} variant="contained" size="large" sx={{ marginRight: '20px' }}>
+                                                Submit Answer
+                                            </Button>
+                                            <Button size="small">
+                                                <Link to={'/prompts'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                    Back to Prompts
+                                                </Link>
+                                            </Button>
+                                        </Box>
+                                    </Typography>
+                                )}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Box>
+                {userAnswerId && <Comments answerId={userAnswerId} />}
+            </Box>
+        </>
     );
 };
 

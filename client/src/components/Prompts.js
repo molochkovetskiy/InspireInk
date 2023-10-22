@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { TextField, Typography, Box, Button, CardContent, Card, CardActions } from '@mui/material';
 
 const Prompts = () => {
     const [prompts, setPrompts] = useState([]);
@@ -48,32 +49,41 @@ const Prompts = () => {
     };
 
     return (
-        <>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search by description"
-                    onChange={(event) => setSearch(event.target.value)}
-                />
-            </div>
-            <div className="prompts-container">
+        <Box p={2}>
+            <TextField
+                label="Search by description"
+                variant="outlined"
+                fullWidth
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                style={{ marginBottom: '20px' }}
+            />
+            <Box sx={{ width: 700 }}>
                 {noResults ? (
-                    <p>No prompts match your search criteria.</p>
+                    <Typography variant="body1">No prompts match your search criteria.</Typography>
                 ) : (
-                    prompts.map((prompt, index) => (
-                        <Link to={`/prompts/${prompt.id}`} key={prompt.id} className="prompt-link">
-                            <div className="prompt-card">
-                                <div className="prompt-content">
-                                    <p>{prompt.description}</p>
-                                </div>
-                                <div className="page-number">{index + 1}</div>
-                            </div>
-                        </Link>
-                    ))
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                        {prompts.map((prompt, index) => (
+                            <Card sx={{ margin: 2, width: 200, height: 150 }}>
+                                <CardContent>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {prompt.description}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small">
+                                        <Link to={`/prompts/${prompt.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            Explore
+                                        </Link>
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        ))}
+                    </Box>
                 )}
-            </div>
-        </>
+            </Box>
+        </Box>
     );
-}
+};
 
 export default Prompts;

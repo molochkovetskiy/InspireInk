@@ -22,7 +22,7 @@ export const Auth = (props) => {
                 }
             } catch (error) {
                 setToken(null);
-                navigate('/login');
+                navigate('/');
             }
         };
         verify();

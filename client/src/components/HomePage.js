@@ -1,37 +1,158 @@
-import { Link } from 'react-router-dom';
-import './css/HomePage.css';
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
-const HomePage = () => {
+import { AppContext } from '../App';
+
+function Copyright(props) {
     return (
-        <div className="home-page">
-            <header>
-                <h1>Welcome to InspireInk</h1>
-                <p>A creative writing hub for writers and creators.</p>
-            </header>
-
-            <section className="features">
-                <div className="feature">
-                    <h2>Explore Writing Prompts</h2>
-                    <p>Discover a wide range of writing prompts to spark your creativity.</p>
-                </div>
-
-                <div className="feature">
-                    <h2>Share Your Work</h2>
-                    <p>Join our community and share your writings with fellow writers.</p>
-                </div>
-
-                <div className="feature">
-                    <h2>Get Inspired</h2>
-                    <p>Find inspiration and new ideas for your writing projects.</p>
-                </div>
-            </section>
-
-            <section className="call-to-action">
-                <p>Ready to get started?</p>
-                <Link to="/prompts">Explore Prompts</Link>
-            </section>
-        </div>
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit">
+                InspireInk
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
     );
-};
+}
 
-export default HomePage;
+const defaultTheme = createTheme();
+
+export default function SignInSide(props) {
+    const [formData, setFormData] = React.useState({ username: '', password: '' });
+
+    const { setToken } = React.useContext(AppContext);
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (props.title === 'Register') {
+            try {
+                const response = await fetch('/users/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.status === 200) {
+                    navigate('/login');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            try {
+                const response = await fetch('/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.status === 200) {
+                    const data = await response.json();
+                    setToken(data.token);
+                    navigate('/feed');
+                } else {
+                    // Handle login failure
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    return (
+        <ThemeProvider theme={defaultTheme}>
+            <Grid container component="main" sx={{ height: '100vh' }}>
+                <CssBaseline />
+                <Grid
+                    item
+                    xs={false}
+                    sm={4}
+                    md={7}
+                    sx={{
+                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundColor: (t) =>
+                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}
+                />
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <Box
+                        sx={{
+                            my: 8,
+                            mx: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
+                                autoFocus
+                                value={formData.username}
+                                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={formData.password}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Sign In
+                            </Button>
+                            <Grid container>
+                                <Grid item>
+                                    <Link href="/register" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                            <Copyright sx={{ mt: 5 }} />
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+        </ThemeProvider>
+    );
+}
