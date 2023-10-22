@@ -11,9 +11,6 @@ const { ai_router } = require('./routes/ai.router.js');
 const dotenv = require('dotenv');
 dotenv.config(); // Load environment variables from a .env file
 
-// Serve static assets
-app.use(express.static(path.join(__dirname, '../client/build')));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -25,15 +22,18 @@ app.use('/users', users_router);
 app.use('/comments', comments_router);
 app.use('/ai', ai_router);
 
-// All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
-
 // Define the port number from environment variables or use a default value (5000)
 const PORT = process.env.PORT || 5000;
 
 // Start the Express server and listen on the specified port
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+});
+
+// Serve static assets
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
